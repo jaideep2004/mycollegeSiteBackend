@@ -109,7 +109,7 @@ exports.forgotPassword = async (req, res) => {
 		await user.save();
 
 		// Send reset email
-		const resetLink = `http://localhost:5173/reset-password?token=${resetToken}`;
+		const resetLink = `https://mycollegesitefront.onrender.com/reset-password?token=${resetToken}`;
 		await sendEmail(
 			email,
 			"Password Reset Request",

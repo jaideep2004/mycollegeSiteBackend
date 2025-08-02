@@ -38,12 +38,12 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Log all requests
 app.use((req, res, next) => {
 	console.log(`${req.method} ${req.url}`);
-	next();
+	next(); 
 });
 
 // Routes
 app.use("/api/auth", require("./routes/auth"));
-app.use("/api/public", require("./routes/public"));
+app.use("/api/public", require("./routes/public")); 
 app.use("/api/student", require("./routes/student"));
 app.use("/api/admin", require("./routes/admin"));
 app.use("/api/faculty", require("./routes/faculty"));

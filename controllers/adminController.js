@@ -566,11 +566,19 @@ const calculateGrade = (marks) => {
 };
 
 exports.addCourse = async (req, res) => {
-	const { name, departmentName, categoryName, feeStructure, formUrl } =
+	const { name, departmentId, categoryId, feeStructure, formUrl, thumbnailUrl, fileUrl } =
 		req.body;
 	try {
-		const department = await Department.findOne({ name: departmentName });
-		const category = await Category.findOne({ name: categoryName });
+		// Validate that departmentId and categoryId are provided
+		if (!departmentId || !categoryId) {
+			return res
+				.status(400)
+				.json({ success: false, error: "Department ID and Category ID are required" });
+		}
+
+		// Verify that the department and category exist
+		const department = await Department.findById(departmentId);
+		const category = await Category.findById(categoryId);
 		if (!department || !category)
 			return res
 				.status(404)
@@ -578,14 +586,17 @@ exports.addCourse = async (req, res) => {
 
 		const course = new Course({
 			name,
-			departmentId: department._id,
-			categoryId: category._id,
+			departmentId,
+			categoryId,
 			feeStructure,
 			formUrl,
+			thumbnailUrl,
+			fileUrl,
 		});
 		await course.save();
 		res.json({ success: true, data: course });
 	} catch (err) {
+		console.error("Error adding course:", err);
 		res.status(500).json({ success: false, error: err.message });
 	}
 };

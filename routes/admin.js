@@ -42,6 +42,13 @@ const {
 	downloadResultTemplate
 } = require("../controllers/adminController");
 
+// Debug middleware to log all admin routes
+router.use((req, res, next) => {
+	console.log(`Admin route accessed: ${req.method} ${req.path}`);
+	console.log('Request body:', req.body);
+	next();
+});
+
 // Apply admin authentication middleware to all routes
 router.use(authMiddleware(['admin']));
 
@@ -86,7 +93,10 @@ router.post('/departments', addDepartment);
 router.get('/categories', getCategories);
 router.post('/categories', addCategory);
 router.get('/courses', getCourses);
-router.post('/courses', addCourse);
+router.post('/courses', (req, res, next) => {
+	console.log('POST /courses route hit with body:', req.body);
+	next();
+}, addCourse);
 router.put('/courses/:id', updateCourse);
 router.delete('/courses/:id', deleteCourse);
 
