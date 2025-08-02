@@ -31,7 +31,8 @@ const {
 	deleteStudent,
 	sendNotification,
 	broadcastNotification,
-	uploadFile, 
+	uploadFile,
+	uploadGalleryImage,
 	getPayments,
 	getNotifications,
 	addResult,
@@ -59,6 +60,14 @@ router.post('/upload', upload.single('file'), (req, res, next) => {
 	console.log('Request file:', req.file);
 	next();
 }, uploadFile);
+
+// Gallery Image Upload
+router.post('/gallery/upload', upload.single('file'), (req, res, next) => {
+	console.log('Gallery upload route hit');
+	console.log('Request body:', req.body);
+	console.log('Request file:', req.file);
+	next();
+}, uploadGalleryImage);
 
 // User Management
 router.get('/users', getUsers);
